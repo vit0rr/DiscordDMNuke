@@ -2,8 +2,8 @@
 var authToken = 'HERE' //input your token here
 
 //ID of user that you want remove messages in DM
-if (typeof(idUser) === 'undefined') {
-	var idUser = ['HERE'] //input id user here
+if (typeof(idUser) === 'HERE') {
+	var idUser = [''] //input id user here
 }
 
 //Optional option => last message send
@@ -19,7 +19,7 @@ clearMessages = function() {
 	const headers = { Authorization: authToken }
 
 	let clock = 0
-	let interval = 500
+	let interval = 1500
 	let messagesStore = []
 
 	//Delay
@@ -41,7 +41,7 @@ clearMessages = function() {
 	//Delete Message
 	function tryDeleteMessage(message) {
 		if (idUser.indexOf(message.author.id) === -1 && message.content != null) {
-			console.log(`Mensagem de ${message.author.username} (${message.content.substring(0, 30)}...) apagada.`)
+			console.log(`Mensagem de ${message.author.username} (${message.content.substring(0, 30)}...) deleted.`)
 			return fetch(`${baseURL}/${message.id}`, { headers, method: 'DELETE' })
 			beforeId = message.id
 		}
@@ -96,6 +96,7 @@ clearMessages = function() {
 			}
 		})
 }
+
 
 //loop script
 function ClearLoop(){
