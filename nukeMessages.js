@@ -2,8 +2,8 @@
 var authToken = 'HERE' //input your token here
 
 //ID of user that you want remove messages in DM
-if (typeof(idUser) === 'HERE') {
-	var idUser = [''] //input id user here
+if (typeof(idUser) === 'undefined') {
+	var idUser = ['HERE'] //input id user here
 }
 
 //Optional option => last message send
