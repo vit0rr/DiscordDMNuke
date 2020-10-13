@@ -41,7 +41,7 @@ clearMessages = function() {
 	//Delete Message
 	function tryDeleteMessage(message) {
 		if (idUser.indexOf(message.author.id) === -1 && message.content != null) {
-			console.log(`Mensagem de ${message.author.username} (${message.content.substring(0, 30)}...) deleted.`)
+			console.log(`Message by ${message.author.username} (${message.content.substring(0, 30)}...) deleted.`)
 			return fetch(`${baseURL}/${message.id}`, { headers, method: 'DELETE' })
 			beforeId = message.id
 		}
