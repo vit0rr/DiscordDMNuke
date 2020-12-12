@@ -1,9 +1,9 @@
-﻿//Your Token
-var authToken = 'HERE' //input your token here
+//Your Token
+let authToken = 'NzQ5NzE0NjA1MTI2ODQ0NDQ4.X8RE9w.zwUQjbczhIZinzd-hafUJ9Q84WQ' //input your token here
 
 //ID of user that you want remove messages in DM
 if (typeof(idUser) === 'undefined') {
-	var idUser = ['HERE'] //input id user here
+	var idUser = ['361635482653687828'] //input id user here
 }
 
 //Optional option => last message send
@@ -43,7 +43,6 @@ clearMessages = function() {
 		if (idUser.indexOf(message.author.id) === -1 && message.content != null) {
 			console.log(`Message by ${message.author.username} (${message.content.substring(0, 30)}...) deleted.`)
 			return fetch(`${baseURL}/${message.id}`, { headers, method: 'DELETE' })
-			beforeId = message.id
 		}
 	}
 
@@ -67,25 +66,22 @@ clearMessages = function() {
 			beforeId = messages[messages.length-1].id
 			messages.forEach(message => { message.deleted = false })
 			messagesStore = messagesStore.concat(messages.filter(filterMessages))
-			return Promise.all(messagesStore.filter(onlyNotDeleted).map(message => {
-				return delay(clock += interval)
-					.then(() => tryDeleteMessage(message))
-					.then(resp => {
-						if (resp && resp.status === 204) {
-							message.deleted = true
-							return resp.text()
-						}
-					})
-					.then(result => {
-						if (result) {
-							result = JSON.parse(result)
-							if (result.code === 50003) {
-								console.log(`Sorry, my system can't remove message by: ${message.author.username}, skipping`)
-								idUser.push(message.author.id)
-								messagesStore = messagesStore.filter(filterMessages)
-							}
-						}
-					})
+			return Promise.all(messagesStore.filter(onlyNotDeleted).map(async message => {
+				await delay(clock += interval)
+				const resp = await tryDeleteMessage(message)
+				if (resp && resp.status === 204) {
+					message.deleted = true
+					return resp.text()
+				}
+				const result = undefined
+				if (result) {
+					result = JSON.parse(result)
+					if (result.code === 50003) {
+						console.log(`Sorry, my system can't remove message by: ${message.author.username}, skipping`)
+						idUser.push(message.author.id)
+						messagesStore = messagesStore.filter(filterMessages)
+					}
+				}
 			}))
 		})
 		.then(function() {
